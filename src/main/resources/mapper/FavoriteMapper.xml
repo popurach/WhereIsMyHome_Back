@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper file: 실행 할 쿼리 문을 저장하는 파일. 테이블 하나당 한개씩 작성
+namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
+<mapper namespace="com.whereismy.mapper.FavoriteMapper">
+
+  <insert id="insert" parameterType="Favorite">
+      insert into favorite (user_id, dongCode) values(#{userId},#{dongCode})
+  </insert>
+
+  <delete id="delete" parameterType="Favorite">
+      delete from favorite where user_id=#{userId} and dongCode=#{dongCode}
+  </delete>
+
+  <select id="search" parameterType="FavoriteAddress" resultType="HomeDeal">
+      select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, hd.dealAmount dealAmount
+      from houseinfo hi
+               inner join housedeal hd on hi.aptCode = hd.aptCode
+               inner join dongcode d on hi.dong = d.dongName
+      where d.sidoName = #{sidoName} and d.gugunName = #{gugunName} and hi.dong=#{dongName};
+  </select>
+
+  <select id="addressName" parameterType="String" resultType="BaseAddress">
+      select sidoName, gugunName, dongName from dongcode where dongCode=#{dongCode}
+  </select>
+
+</mapper>
+
+
+
+
+
+

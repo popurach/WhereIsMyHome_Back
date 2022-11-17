@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper file: 실행 할 쿼리 문을 저장하는 파일. 테이블 하나당 한개씩 작성
+namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
+<mapper namespace="com.whereismy.mapper.QnAMapper">
+
+  <select id="getQnAList" resultType="QnA">
+      select * from qna
+  </select>
+
+  <select id="getOneQnA" parameterType="string" resultType="QnA">
+  	select * from qna where num=#{num}
+  </select>
+
+  <insert id="insertQnA" parameterType="QnA">
+      insert into qna (writer,title,content,date) values(#{writer}, #{title}, #{content}, sysdate())
+  </insert>
+
+  <update id="updateQnA" parameterType="QnA">
+      update qna set title =#{qna.title}, content = #{qna.content} where num = #{num}
+  </update>
+    
+  <delete id="deleteQnA" parameterType="String">
+      delete from qna where num=#{num}
+  </delete>
+
+    <select id="searchQnA" parameterType="string" resultType="QnA">
+        select * from qna where title like concat('%',#{title},'%')
+    </select>
+
+    <select id="getComment" parameterType="string" resultType="Comment">
+        select * from comment where bnum=#{bnum}
+    </select>
+
+    <insert id="insertComment" parameterType="Comment">
+        insert into comment (bnum, writer, comment) values(#{bnum}, #{writer}, #{comment})
+    </insert>
+
+    <delete id="deleteComment" parameterType="String">
+        delete from comment where bnum=#{bnum} and num=#{num}
+    </delete>
+
+</mapper>
+
+
+
+
+
+

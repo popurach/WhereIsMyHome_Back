@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whereismy.mapper.NoticeMapper">
+
+  <select id="list" resultType="Notice">
+    select * from notice;
+  </select>
+
+  <select id="selectByUser" parameterType="string" resultType="Notice">
+    select * from notice where user = #{user}
+  </select>
+
+  <select id="selectByTitle" parameterType="string" resultType="Notice">
+  	select * from notice where title like concat('%', #{title}, '%')	
+  </select>
+  
+  <select id="insert" parameterType="Notice">
+  	insert into notice
+  	values(null, #{user}, #{title}, #{regdate}, #{content}, 0);	  
+  </select>
+    
+  <select id="delete" parameterType="string">
+ 	delete from notice
+ 	where number = #{number}
+  </select>
+
+  <select id="update" parameterType="Notice">
+  	update notice
+  	<set>
+  		<if test="#{title} != null">
+  			title = #{title}
+  		</if>
+  		<if test="#{content} != null">
+  			content = #{content}
+  		</if>
+  	</set>
+  	where number = #{number}
+  </select>
+  
+  <select id="deleteAll">
+  	delete from notice
+  </select>
+</mapper>
+
+
+
+
+
+

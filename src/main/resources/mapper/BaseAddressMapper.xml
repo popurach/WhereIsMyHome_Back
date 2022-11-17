@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper file: 실행 할 쿼리 문을 저장하는 파일. 테이블 하나당 한개씩 작성
+namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
+<mapper namespace="com.whereismy.mapper.BaseAddressMapper">
+
+  <select id="getSidoList" resultType="String">
+    select distinct sidoName from sidocode order by sidoName;
+  </select>
+
+  <select id="getGunguList" parameterType="string" resultType="String">
+    select distinct gugunName from dongcode where sidoName = #{sido} order by gugunName;
+  </select>
+
+  <select id="getDongList" parameterType="HomeDeal" resultType="String">
+  	select distinct dongName from dongCode where sidoName = #{sidoName} and gugunName = #{gugunName} order by dongName;
+  </select>
+  
+  <select id="getInfo" parameterType="HomeDeal" resultType="HomeDeal">
+  	select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, hd.dealAmount dealAmount
+	from houseinfo hi 
+	inner join housedeal hd on hi.aptCode = hd.aptCode
+	inner join dongcode d on hi.dong = d.dongName
+	where d.sidoName = #{sidoName} and d.gugunName = #{gugunName} and hi.dong=#{dongName};
+  </select>
+    
+  <select id="getSearch" parameterType="HomeDeal" resultType="HomeDeal">
+ 	select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, hd.dealAmount dealAmount
+	from houseinfo hi 
+	inner join housedeal hd on hi.aptCode = hd.aptCode
+	inner join dongcode d on hi.dong = d.dongName
+	where d.sidoName = #{sidoName} and d.gugunName = #{gugunName} and hi.dong=#{dongName} and hi.apartmentName like concat('%', #{aptName}, '%');
+  </select>
+
+</mapper>
+
+
+
+
+
+
