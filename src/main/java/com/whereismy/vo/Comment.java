@@ -13,6 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
+    @ApiModelProperty(value="댓글 번호")
+    String num;
     @ApiModelProperty(value="게시글 번호")
     String bnum;
     @ApiModelProperty(value="작성자")
