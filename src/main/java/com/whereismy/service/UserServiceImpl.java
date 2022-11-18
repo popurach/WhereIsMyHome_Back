@@ -37,4 +37,14 @@ public class UserServiceImpl implements UserService{
 		mapper.delete(id);
 	}
 
+	@Override
+	public void logout(String id) {
+		mapper.logout(id);
+	}
+
+	@Override
+	public void saveRefreshToken(String id, String refreshToken) {
+		mapper.saveRefreshToken(id,refreshToken);
+	}
+
 }
