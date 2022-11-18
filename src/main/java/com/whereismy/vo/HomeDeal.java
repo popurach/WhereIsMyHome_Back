@@ -17,23 +17,32 @@ public class HomeDeal {
 	private String dealYear;
 	@ApiModelProperty(value="거래 금액")
 	private String dealAmount;
-	
+	@ApiModelProperty(value="경도")
+	private String lng;
+	@ApiModelProperty(value="위도")
+	private String lat;
+
+
 	public HomeDeal() {}
 
-	public HomeDeal(String sidoName, String gugunName, String dongName, String aptName, String dealYear,String dealAmount) {
+
+	public HomeDeal(String sidoName, String gugunName, String dongName, String aptName, String dealYear,
+					String dealAmount, String lng, String lat) {
+		super();
 		this.sidoName = sidoName;
 		this.gugunName = gugunName;
 		this.dongName = dongName;
 		this.aptName = aptName;
-		this.dealYear=dealYear;
+		this.dealYear = dealYear;
 		this.dealAmount = dealAmount;
+		this.lng = lng;
+		this.lat = lat;
 	}
-	
-	
 	@Override
 	public String toString() {
 		return "HomeDeal [sidoName=" + sidoName + ", gugunName=" + gugunName + ", dongName=" + dongName + ", aptName="
-				+ aptName + ", dealYear=" + dealYear + ", dealAmount=" + dealAmount + "]";
+				+ aptName + ", dealYear=" + dealYear + ", dealAmount=" + dealAmount + ", lng=" + lng + ", lat=" + lat
+				+ "]";
 	}
 
 	public String getDealYear() {
@@ -83,7 +92,22 @@ public class HomeDeal {
 	public void setDealAmount(String dealAmount) {
 		this.dealAmount = dealAmount;
 	}
-	
-	
+
+	public String getLng() {
+		return lng;
+	}
+
+	public void setLng(String lng) {
+		this.lng = lng;
+	}
+
+
+	public String getLat() {
+		return lat;
+	}
+
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
 
 }
