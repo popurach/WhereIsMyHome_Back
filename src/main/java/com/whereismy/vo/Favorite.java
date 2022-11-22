@@ -13,8 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Favorite {
+	@ApiModelProperty(value="번호")
+	private int num;
     @ApiModelProperty(value="사용자 id")
-    String userId;
-    @ApiModelProperty(value="관심 지역 dongCode")
-    String dongCode;
+    private String userId;
+//    @ApiModelProperty(value="관심 지역 dongCode")
+//    String dongCode;
+    @ApiModelProperty(value="관심 지역 시도")
+	private String sidoName;
+	@ApiModelProperty(value="관심 지역 구군")
+	private String gugunName;
+	@ApiModelProperty(value="관심 지역 동")
+	private String dongName;
 }
