@@ -2,8 +2,9 @@ package com.whereismy.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.whereismy.service.JwtService;
 import com.whereismy.service.UserService;
 import com.whereismy.vo.LoginUser;
@@ -13,10 +14,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +72,46 @@ public class UserController {
 
 		return new ResponseEntity<Map<String,Object>>(resultMap,status);
 	}
+
+	@ApiOperation(value="구글로그인")
+	@ApiResponses({@ApiResponse(code=200,message="로그인 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "로그인 실패")})
+	@PostMapping("/oauth/google")
+	public ResponseEntity<?> google(@RequestBody Map<String,String> access){
+		System.out.println(access.get("accessToken"));
+
+		try {
+			System.out.println("여기로 오나요?");
+			String accessToken = access.get("accessToken");
+			String GOOGLE_USERINFO_REQUEST_URL="https://www.googleapis.com/oauth2/v1/userinfo";
+
+			//header에 accessToken을 담는다.
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Authorization","Bearer "+accessToken);
+
+			//HttpEntity를 하나 생성해 헤더를 담아서 restTemplate으로 구글과 통신하게 된다.
+			HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers);
+
+			HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+			factory.setReadTimeout(5000);  // 읽기시간초과, ms
+			factory.setConnectTimeout(3000); // 연결시간초과, ms
+			HttpClient httpClient = HttpClientBuilder.create()
+					.setMaxConnTotal(100) // connection pool 적용
+					.setMaxConnPerRoute(5) // connection pool 적용
+					.build();
+			factory.setHttpClient(httpClient); // 동기실행에 사용될 HttpClient 세팅
+			RestTemplate restTemplate = new RestTemplate(factory);
+
+			ResponseEntity<String> response=restTemplate.exchange("https://www.googleapis.com/oauth2/v1/userinfo", HttpMethod.GET,request,String.class);
+
+			System.out.println("response.getBody() = " + response.getBody());
+
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
 
 	@ApiOperation(value="로그아웃")
 	@ApiResponses({@ApiResponse(code=200,message="로그아웃 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "로그아웃 실패")})
