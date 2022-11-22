@@ -38,7 +38,7 @@ public class FavoriteController {
 
     //사용자별 관심 지역 리스트 출력
     @GetMapping("/favorite/{id}")
-    public ArrayList<BaseAddress> addressName(@PathVariable String id){
+    public ArrayList<Favorite> addressName(@PathVariable String id){
         return service.addressName(id);
     }
 }

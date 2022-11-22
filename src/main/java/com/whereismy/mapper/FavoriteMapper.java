@@ -11,5 +11,5 @@ public interface FavoriteMapper {
 	void insert(Favorite favorite);
 	void delete(Favorite favorite);
 	ArrayList<HomeDeal> search(FavoriteAddress favorite);
-	ArrayList<BaseAddress> addressName(String id);
+	ArrayList<Favorite> addressName(String id);
 }
