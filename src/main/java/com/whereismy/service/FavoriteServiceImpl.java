@@ -1,14 +1,14 @@
 package com.whereismy.service;
 
-import com.whereismy.mapper.FavoriteMapper;
-import com.whereismy.vo.BaseAddress;
-import com.whereismy.vo.Favorite;
-import com.whereismy.vo.FavoriteAddress;
-import com.whereismy.vo.HomeDeal;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import com.whereismy.mapper.FavoriteMapper;
+import com.whereismy.vo.Favorite;
+import com.whereismy.vo.FavoriteAddress;
+import com.whereismy.vo.HomeDeal;
 
 @Service
 public class FavoriteServiceImpl implements FavoriteService{
@@ -31,7 +31,7 @@ public class FavoriteServiceImpl implements FavoriteService{
     }
 
     @Override
-    public ArrayList<BaseAddress> addressName(String id) {
+    public ArrayList<Favorite> addressName(String id) {
         return mapper.addressName(id);
     }
 }

@@ -22,12 +22,21 @@ public class HomeDeal {
 	@ApiModelProperty(value="위도")
 	private String lat;
 
+	//세부 내용 표시
+	@ApiModelProperty(value="거래 월")
+	private String dealMonth;
+	@ApiModelProperty(value="거래 일자")
+	private String dealDay;
+	@ApiModelProperty(value="층")
+	private String floor;
+	@ApiModelProperty(value="전용 면적")
+	private String area;
 
+	
 	public HomeDeal() {}
-
-
+	
 	public HomeDeal(String sidoName, String gugunName, String dongName, String aptName, String dealYear,
-					String dealAmount, String lng, String lat) {
+			String dealAmount, String lng, String lat, String dealMonth, String dealDay, String floor, String area) {
 		super();
 		this.sidoName = sidoName;
 		this.gugunName = gugunName;
@@ -37,12 +46,17 @@ public class HomeDeal {
 		this.dealAmount = dealAmount;
 		this.lng = lng;
 		this.lat = lat;
+		this.dealMonth = dealMonth;
+		this.dealDay = dealDay;
+		this.floor = floor;
+		this.area = area;
 	}
+
 	@Override
 	public String toString() {
 		return "HomeDeal [sidoName=" + sidoName + ", gugunName=" + gugunName + ", dongName=" + dongName + ", aptName="
 				+ aptName + ", dealYear=" + dealYear + ", dealAmount=" + dealAmount + ", lng=" + lng + ", lat=" + lat
-				+ "]";
+				+ ", dealMonth=" + dealMonth + ", dealDay=" + dealDay + ", floor=" + floor + ", area=" + area + "]";
 	}
 
 	public String getDealYear() {
@@ -101,7 +115,6 @@ public class HomeDeal {
 		this.lng = lng;
 	}
 
-
 	public String getLat() {
 		return lat;
 	}
@@ -110,4 +123,36 @@ public class HomeDeal {
 		this.lat = lat;
 	}
 
+	public String getDealMonth() {
+		return dealMonth;
+	}
+
+	public void setDealMonth(String dealMonth) {
+		this.dealMonth = dealMonth;
+	}
+
+	public String getDealDay() {
+		return dealDay;
+	}
+
+	public void setDealDay(String dealDay) {
+		this.dealDay = dealDay;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+	
 }

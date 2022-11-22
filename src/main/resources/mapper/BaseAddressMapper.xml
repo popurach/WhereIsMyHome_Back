@@ -19,19 +19,21 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
   </select>
   
   <select id="getInfo" parameterType="HomeDeal" resultType="HomeDeal">
-  	select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, hd.dealAmount dealAmount
+  	select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, 
+    hd.dealAmount dealAmount, hi.lng lng, hi.lat lat, hd.dealMonth dealMonth, hd.dealDay dealDay, hd.floor floor, hd.area area
 	from houseinfo hi 
 	inner join housedeal hd on hi.aptCode = hd.aptCode
-	inner join dongcode d on hi.dong = d.dongName
-	where d.sidoName = #{sidoName} and d.gugunName = #{gugunName} and hi.dong=#{dongName};
+	inner join dongcode d on hi.dongCode = d.dongCode
+	where d.sidoName = #{sidoName} and d.gugunName = #{gugunName} and d.dongName = #{dongName} and hi.dong = d.dongName;
   </select>
     
   <select id="getSearch" parameterType="HomeDeal" resultType="HomeDeal">
- 	select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, hd.dealAmount dealAmount
-	from houseinfo hi 
+ 	select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, 
+    hd.dealAmount dealAmount, hi.lng lng, hi.lat lat, hd.dealMonth dealMonth, hd.dealDay dealDay, hd.floor floor, hd.area area	
+    from houseinfo hi 
 	inner join housedeal hd on hi.aptCode = hd.aptCode
-	inner join dongcode d on hi.dong = d.dongName
-	where d.sidoName = #{sidoName} and d.gugunName = #{gugunName} and hi.dong=#{dongName} and hi.apartmentName like concat('%', #{aptName}, '%');
+	inner join dongcode d on hi.dongCode = d.dongCode
+	where d.sidoName = #{sidoName} and d.gugunName = #{gugunName} and d.dongName = #{dongName} and hi.dong = d.dongName and hi.apartmentName like concat('%', #{aptName}, '%');
   </select>
 
 </mapper>

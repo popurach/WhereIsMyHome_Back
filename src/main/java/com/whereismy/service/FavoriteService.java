@@ -16,5 +16,5 @@ public interface FavoriteService {
 	//관심 지역 매물 검색
 	ArrayList<HomeDeal> search(FavoriteAddress favorite);
 	//사용자가 선택한 관심 지역 리스트 조회
-	ArrayList<BaseAddress> addressName(String id);
+	ArrayList<Favorite> addressName(String id);
 }
