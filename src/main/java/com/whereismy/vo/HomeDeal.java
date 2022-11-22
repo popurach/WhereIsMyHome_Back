@@ -21,6 +21,7 @@ public class HomeDeal {
 	private String lng;
 	@ApiModelProperty(value="위도")
 	private String lat;
+
 	//세부 내용 표시
 	@ApiModelProperty(value="거래 월")
 	private String dealMonth;
@@ -113,7 +114,7 @@ public class HomeDeal {
 	public void setLng(String lng) {
 		this.lng = lng;
 	}
-	
+
 	public String getLat() {
 		return lat;
 	}

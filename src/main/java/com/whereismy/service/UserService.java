@@ -17,4 +17,7 @@ public interface UserService {
 
 	void delete(String id);
 
+    void logout(String id);
+
+	void saveRefreshToken(String id, String refreshToken);
 }

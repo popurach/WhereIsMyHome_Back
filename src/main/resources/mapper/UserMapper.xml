@@ -10,6 +10,10 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
       select id, pass from user where id =#{id} and pass =#{pass}
   </select>
 
+    <insert id="saveRefreshToken" parameterType="string">
+        insert into token values(#{id},#{refreshToken})
+    </insert>
+
   <insert id="register" parameterType="User">
       insert into user values(#{id}, #{pass}, #{name}, #{address}, #{tel})
   </insert>
@@ -26,6 +30,13 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
       delete from user where id=#{id}
   </delete>
 
+    <delete id="logout" parameterType="String">
+        delete from token where user_id=#{id}
+    </delete>
+
+    <select id="getRefreshToken" parameterType="string" resultType="string">
+        select refresh_token from token where user_id=#{id}
+    </select>
 </mapper>
 
 
