@@ -25,9 +25,9 @@ public class FavoriteController {
     }
 
     //관심 지역 제거
-    @DeleteMapping("/favorite")
-    public void delete(@RequestBody Favorite favorite){
-        service.delete(favorite);
+    @DeleteMapping("/favorite/{num}")
+    public void delete(@PathVariable int num){
+        service.delete(num);
     }
 
     //관심지역 매물 검색

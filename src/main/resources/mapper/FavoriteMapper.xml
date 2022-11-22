@@ -15,9 +15,9 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
       gugunName=#{gugunName} and dongName=#{dongName} ) limit 1;
   </insert>
 
-  <delete id="delete" parameterType="Favorite">
+  <delete id="delete" parameterType="int">
       delete from favorite 
-      where user_id=#{userId} and sidoName=#{sidoName} and gugunName=#{gugunName} and dongName=#{dongName}
+      where num = #{num}
   </delete>
 
   <select id="search" parameterType="FavoriteAddress" resultType="HomeDeal">
