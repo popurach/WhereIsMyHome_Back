@@ -180,7 +180,7 @@ public class UserController {
 		service.register(user);
 	}
 
-	//interceptor에서
+	//interceptor에서 Id 가져오기
 	//회원 정보 수정 위한 기본 정보 조회때도 이용하면 됨
 	@ApiOperation(value="회원 정보 조회")
 	@ApiResponses({@ApiResponse(code=200,message="회원 정보 조회 성공"),@ApiResponse(code=204,message="존재하지 않는 회원입니다"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "조회 실패")})
