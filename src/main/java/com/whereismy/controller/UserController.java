@@ -1,10 +1,5 @@
 package com.whereismy.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.whereismy.service.JwtService;
 import com.whereismy.service.UserService;
 import com.whereismy.vo.LoginUser;
@@ -16,6 +11,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -41,7 +38,7 @@ public class UserController {
 	@ApiOperation(value="로그인")
 	@ApiResponses({@ApiResponse(code=200,message="로그인 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "로그인 실패")})
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginUser user, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginUser user) {
 		//User flag = service.check(new User(user.getId(), user.getPass(), null, null, null));    //맞는 유저인지 체크
 		Map<String,Object> resultMap=new HashMap<>();
 		HttpStatus status=null;
@@ -77,10 +74,7 @@ public class UserController {
 	@ApiResponses({@ApiResponse(code=200,message="로그인 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "로그인 실패")})
 	@PostMapping("/oauth/google")
 	public ResponseEntity<?> google(@RequestBody Map<String,String> access){
-		System.out.println(access.get("accessToken"));
-
 		try {
-			System.out.println("여기로 오나요?");
 			String accessToken = access.get("accessToken");
 			String GOOGLE_USERINFO_REQUEST_URL="https://www.googleapis.com/oauth2/v1/userinfo";
 
@@ -103,9 +97,26 @@ public class UserController {
 
 			ResponseEntity<String> response=restTemplate.exchange("https://www.googleapis.com/oauth2/v1/userinfo", HttpMethod.GET,request,String.class);
 
-			System.out.println("response.getBody() = " + response.getBody());
+			JSONParser jsonParser=new JSONParser();
+			JSONObject jsonObject=(JSONObject) jsonParser.parse(response.getBody().toString());
 
-			return new ResponseEntity<>(HttpStatus.OK);
+			String passId=(String)jsonObject.get("id");
+			String emailId=((String)jsonObject.get("email")).split("@")[0];
+			String name=(String)jsonObject.get("name");
+			LoginUser user=new LoginUser(emailId,passId);
+
+			User flag = service.check(user);
+
+			// DB에 있는 계정이라면 로그인
+			if(flag!=null){
+				return login(user);
+			}
+			// DB에 없는 계정이라면 회원가입 -> 로그인
+			else{
+				service.register(new User(emailId,passId,name,null,null));
+				return login(user);
+			}
+
 		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -165,7 +176,7 @@ public class UserController {
 	@ApiOperation(value="회원 등록")
 	@ApiResponses({@ApiResponse(code=200,message="회원 등록 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "등록 실패")})
 	@PostMapping("/user")
-	public void register(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+	public void register(@RequestBody User user) {
 		service.register(user);
 	}
 
