@@ -25,4 +25,5 @@ public interface UserMapper {
 	void saveRefreshToken(@Param("id") String id, @Param("refreshToken") String refreshToken);
 
     String getRefreshToken(String id);
+
 }

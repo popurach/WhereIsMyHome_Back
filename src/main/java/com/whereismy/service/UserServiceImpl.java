@@ -44,6 +44,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void saveRefreshToken(String id, String refreshToken) {
+		String sqlId=mapper.getRefreshToken(id);
+		if(sqlId!=null){
+			mapper.logout(id);
+		}
 		mapper.saveRefreshToken(id,refreshToken);
 	}
 

@@ -37,6 +37,7 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
     <select id="getRefreshToken" parameterType="string" resultType="string">
         select refresh_token from token where user_id=#{id}
     </select>
+
 </mapper>
 
 

@@ -22,6 +22,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         // access token 가져오기
         String authorization=request.getHeader("Authorization");
 
+        if(request.getMethod().equals("OPTIONS")){
+            return true;
+        }
+
         if(authorization==null || authorization.length()==0){
             throw new JwtException("AUTHORIZATION이 존재하지 않습니다.");
         }

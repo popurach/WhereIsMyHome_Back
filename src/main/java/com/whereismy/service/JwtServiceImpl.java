@@ -16,23 +16,23 @@ public class JwtServiceImpl implements JwtService{
 
     @Override
     public String createAccessToken(String val) {
-        return createToken(val, "access-token",1000*600);
+        return createToken(val, "access-token",1800000);
     }
 
     @Override
     public String createRefreshToken(String val) {
-        return createToken(val,"refresh-token",1000*1800);
+        return createToken(val,"refresh-token",30000000);
     }
 
     // token 생성
     public String createToken(String id, String tokenName,long expire){
-        Date now=new Date();
         String jwt=null;
         try {
             byte[] b = SECRET.getBytes("UTF-8");
             jwt=Jwts.builder()
                     .setHeaderParam(Header.TYPE,Header.JWT_TYPE)
                     .setSubject(tokenName)
+                    .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis()+expire))
                     .claim("id",id)
                     .signWith(SignatureAlgorithm.HS256,b)
