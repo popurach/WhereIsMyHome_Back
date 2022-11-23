@@ -112,7 +112,6 @@ public class UserController {
 
 	}
 
-
 	@ApiOperation(value="로그아웃")
 	@ApiResponses({@ApiResponse(code=200,message="로그아웃 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "로그아웃 실패")})
 	@GetMapping("/logout/{userId}")

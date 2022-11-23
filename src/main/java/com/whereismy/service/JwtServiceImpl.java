@@ -16,12 +16,12 @@ public class JwtServiceImpl implements JwtService{
 
     @Override
     public String createAccessToken(String val) {
-        return createToken(val, "access-token",1000*10);
+        return createToken(val, "access-token",1000*600);
     }
 
     @Override
     public String createRefreshToken(String val) {
-        return createToken(val,"refresh-token",1000*30);
+        return createToken(val,"refresh-token",1000*1800);
     }
 
     // token 생성
@@ -33,7 +33,7 @@ public class JwtServiceImpl implements JwtService{
             jwt=Jwts.builder()
                     .setHeaderParam(Header.TYPE,Header.JWT_TYPE)
                     .setSubject(tokenName)
-                    .setExpiration(new Date(now.getTime()+ expire))
+                    .setExpiration(new Date(System.currentTimeMillis()+expire))
                     .claim("id",id)
                     .signWith(SignatureAlgorithm.HS256,b)
                     .compact();
@@ -46,7 +46,8 @@ public class JwtServiceImpl implements JwtService{
     @Override
     public boolean checkToken(String token) {
         try{
-            Jws<Claims> claims= Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+            byte[] key=SECRET.getBytes("UTF-8");
+            Jws<Claims> claims= Jwts.parser().setSigningKey(key).parseClaimsJws(token);
             return true;
         }catch(Exception e){
             return false;

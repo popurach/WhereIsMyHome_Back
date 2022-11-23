@@ -9,6 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import io.jsonwebtoken.JwtException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 @Component
 @RequiredArgsConstructor
@@ -19,13 +20,13 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // access token 가져오기
-        String authorization=request.getHeader(HttpHeaders.AUTHORIZATION);
+        String authorization=request.getHeader("Authorization");
 
         if(authorization==null || authorization.length()==0){
             throw new JwtException("AUTHORIZATION이 존재하지 않습니다.");
         }
 
-        String accessToken=authorization;
+        String accessToken=authorization.split(" ")[1];
         boolean isValid=jwtUtil.checkToken(accessToken);
         if(isValid){
             // 토큰 유효함 user Auth 정보 가져오기
