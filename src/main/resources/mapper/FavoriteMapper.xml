@@ -19,6 +19,10 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
       delete from favorite 
       where num = #{num}
   </delete>
+  
+  <delete id="deleteAll">
+      delete from favorite;
+  </delete>
 
   <select id="search" parameterType="FavoriteAddress" resultType="HomeDeal">
       select d.sidoName sidoName, d.gugunName gugunName, hi.dong dongName, hi.apartmentName aptName, hd.dealYear dealYear, hd.dealAmount dealAmount

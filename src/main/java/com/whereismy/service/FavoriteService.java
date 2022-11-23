@@ -13,6 +13,8 @@ public interface FavoriteService {
 	void insert(Favorite favorite);
 	//관심 지역 제거
 	void delete(int num);
+	//관심 지역 모두 제거
+	void deleteAll();
 	//관심 지역 매물 검색
 	ArrayList<HomeDeal> search(FavoriteAddress favorite);
 	//사용자가 선택한 관심 지역 리스트 조회

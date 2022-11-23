@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public interface FavoriteMapper {
 	void insert(Favorite favorite);
 	void delete(int num);
+	void deleteAll();
 	ArrayList<HomeDeal> search(FavoriteAddress favorite);
 	ArrayList<Favorite> addressName(String id);
 }

@@ -24,6 +24,11 @@ public class FavoriteServiceImpl implements FavoriteService{
     public void delete(int num) {
         mapper.delete(num);
     }
+    
+    @Override
+    public void deleteAll() {
+        mapper.deleteAll();
+    }
 
     @Override
     public ArrayList<HomeDeal> search(FavoriteAddress favorite) {
