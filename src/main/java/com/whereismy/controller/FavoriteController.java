@@ -29,6 +29,12 @@ public class FavoriteController {
     public void delete(@PathVariable int num){
         service.delete(num);
     }
+    
+  //관심 지역 모두 제거
+    @DeleteMapping("/favorite")
+    public void deleteAll(){
+        service.deleteAll();
+    }
 
     //관심지역 매물 검색
     @PostMapping("/favorite/search")
