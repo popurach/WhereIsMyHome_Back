@@ -21,8 +21,8 @@ public class FavoriteServiceImpl implements FavoriteService{
     }
 
     @Override
-    public void delete(Favorite favorite) {
-        mapper.delete(favorite);
+    public void delete(int num) {
+        mapper.delete(num);
     }
 
     @Override
