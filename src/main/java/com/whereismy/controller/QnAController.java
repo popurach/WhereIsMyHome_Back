@@ -29,7 +29,7 @@ public class QnAController {
 	@ApiOperation(value="게시글 목록 보기")
 	@ApiResponses({@ApiResponse(code=200,message="게시글 목록 조회 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "게시글 로딩 실패")})
 	@GetMapping("/qna")
-	public ArrayList<QnA> login() {
+	public ArrayList<QnA> listQnA() {
 		ArrayList<QnA> qna=service.getQnAList();
 
 		return qna;
@@ -38,7 +38,7 @@ public class QnAController {
 	@ApiOperation(value="게시글 상세 보기")
 	@ApiResponses({@ApiResponse(code=200,message="게시글 조회 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "게시글 로딩 실패")})
 	@GetMapping("/qna/{num}")
-	public ResponseEntity<QnA> logout(@PathVariable String num, HttpServletRequest request) {
+	public ResponseEntity<QnA> detailQnA(@PathVariable String num, HttpServletRequest request) {
 		QnA qna=service.getOneQnA(num);
 		if(qna!=null) {
 			return new ResponseEntity<QnA>(qna, HttpStatus.OK);
