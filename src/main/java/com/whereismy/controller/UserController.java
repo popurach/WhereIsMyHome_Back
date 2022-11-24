@@ -3,6 +3,7 @@ package com.whereismy.controller;
 import com.whereismy.service.JwtService;
 import com.whereismy.service.UserService;
 import com.whereismy.vo.LoginUser;
+import com.whereismy.vo.ResetPass;
 import com.whereismy.vo.UpdateUser;
 import com.whereismy.vo.User;
 import io.swagger.annotations.Api;
@@ -20,6 +21,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.mail.internet.AddressException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,5 +210,24 @@ public class UserController {
 	@DeleteMapping("/user/{id}")
 	public void deleteUser(@PathVariable String id) {
 		service.delete(id);
+	}
+
+	@ApiOperation(value="비밀번호 찾기")
+	@ApiResponses({@ApiResponse(code=200,message="비밀번호 찾기 이메일 발송 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "이메일 발송 실패")})
+	@GetMapping("/resetPass/{id}/{email}")
+	public ResponseEntity<?> resetPass(@PathVariable String id,@PathVariable String email) {
+		// DB에 저장된 id인지 확인
+		User user=service.selectOne(id);
+
+		// 맞다면 이메일 발송 및 비밀번호 변경 작업
+		if(user!=null){
+			String newPass=service.resetPass(id);
+			service.sendMail(new ResetPass(id,newPass, email));
+			return new ResponseEntity(HttpStatus.OK);
+		}
+		// 없다면 오류 발송
+		else{
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
 	}
 }

@@ -2,8 +2,11 @@ package com.whereismy.service;
 
 
 import com.whereismy.vo.LoginUser;
+import com.whereismy.vo.ResetPass;
 import com.whereismy.vo.UpdateUser;
 import com.whereismy.vo.User;
+
+import javax.mail.internet.AddressException;
 
 public interface UserService {
 
@@ -20,4 +23,8 @@ public interface UserService {
     void logout(String id);
 
 	void saveRefreshToken(String id, String refreshToken);
+
+    String resetPass(String id);
+
+	void sendMail(ResetPass reset);
 }

@@ -26,4 +26,5 @@ public interface UserMapper {
 
     String getRefreshToken(String id);
 
+    void resetPass(LoginUser user);
 }

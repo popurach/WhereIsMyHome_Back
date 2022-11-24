@@ -38,6 +38,10 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
         select refresh_token from token where user_id=#{id}
     </select>
 
+    <update id="resetPass" parameterType="LoginUser">
+        update user set pass=#{pass} where id=#{id}
+    </update>
+
 </mapper>
 
 
