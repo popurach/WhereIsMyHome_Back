@@ -24,7 +24,9 @@ public interface UserService {
 
 	void saveRefreshToken(String id, String refreshToken);
 
-    String resetPass(String id);
+    String findPass(String id);
 
 	void sendMail(ResetPass reset);
+
+	void resetPass(LoginUser user);
 }

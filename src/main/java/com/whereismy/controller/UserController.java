@@ -205,6 +205,13 @@ public class UserController {
 		service.modify(user);
 	}
 
+	@ApiOperation(value="비밀번호 변경")
+	@ApiResponses({@ApiResponse(code=200,message="비밀번호 변경 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "비밀번호 변경 실패")})
+	@PutMapping("/reset/pass")
+	public void resetPass(@RequestBody LoginUser user) {
+		service.resetPass(user);
+	}
+
 	@ApiOperation(value="회원 탈퇴")
 	@ApiResponses({@ApiResponse(code=200,message="회원 탈퇴 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "탈퇴 실패 아무데도 못 감")})
 	@DeleteMapping("/user/{id}")
@@ -214,20 +221,26 @@ public class UserController {
 
 	@ApiOperation(value="비밀번호 찾기")
 	@ApiResponses({@ApiResponse(code=200,message="비밀번호 찾기 이메일 발송 성공"),@ApiResponse(code=404,message = "페이지 없음"),@ApiResponse(code=500,message = "이메일 발송 실패")})
-	@GetMapping("/resetPass/{id}/{email}")
-	public ResponseEntity<?> resetPass(@PathVariable String id,@PathVariable String email) {
+	@GetMapping("/find/pass/{id}/{email}")
+	public ResponseEntity<?> findPass(@PathVariable String id,@PathVariable String email) {
 		// DB에 저장된 id인지 확인
 		User user=service.selectOne(id);
+		HttpStatus status=null;
 
 		// 맞다면 이메일 발송 및 비밀번호 변경 작업
-		if(user!=null){
-			String newPass=service.resetPass(id);
-			service.sendMail(new ResetPass(id,newPass, email));
-			return new ResponseEntity(HttpStatus.OK);
-		}
-		// 없다면 오류 발송
-		else{
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		try {
+			if (user != null) {
+				String newPass = service.findPass(id);
+				service.sendMail(new ResetPass(id, newPass, email));
+				status=HttpStatus.OK;
+				return new ResponseEntity("success",status);
+			}
+			// 없다면 오류 발송
+			else {
+				return new ResponseEntity("fail",HttpStatus.NO_CONTENT);
+			}
+		}catch(Exception e){
+			return new ResponseEntity("fail",HttpStatus.NO_CONTENT);
 		}
 	}
 }

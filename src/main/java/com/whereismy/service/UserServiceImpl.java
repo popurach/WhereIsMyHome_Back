@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public String resetPass(String id) {
+	public String findPass(String id) {
 		// 임시 비밀번호 생성
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 				'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -93,6 +93,11 @@ public class UserServiceImpl implements UserService{
 		message.setText("안녕하세요. "+user.getName()+"님! \n 임시 비밀번호 발급해드립니다. 다음의 비밀번호를 이용하여 로그인 진행해주세요.\n" +
 				reset.getNewPass()+"\n 감사합니다~. 구해줘 태봉이었습니다.!");
 		mailSender.send(message);
+	}
+
+	@Override
+	public void resetPass(LoginUser user) {
+		mapper.resetPass(user);
 	}
 
 }
