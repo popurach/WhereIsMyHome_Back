@@ -7,7 +7,7 @@ namespace: 작업하는 테이블들을 구분해주기 위한 식별자 -->
 <mapper namespace="com.whereismy.mapper.QnAMapper">
 
   <select id="getQnAList" resultType="QnA">
-      select * from qna
+      select * from qna order by num desc
   </select>
 
   <select id="getOneQnA" parameterType="string" resultType="QnA">
